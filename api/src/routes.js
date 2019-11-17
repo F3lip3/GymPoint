@@ -2,7 +2,7 @@ import { Router } from 'express';
 import authMiddleware from './app/middlewares/auth';
 
 import CheckinController from './app/controllers/CheckinController';
-import EnrollmentController from './app/controllers/EnrollmentController';
+import RegistrationController from './app/controllers/RegistrationController';
 import HelpOrderController from './app/controllers/HelpOrderController';
 import PlanController from './app/controllers/PlanController';
 import SessionController from './app/controllers/SessionController';
@@ -27,10 +27,10 @@ routes.post('/plans', PlanController.store);
 routes.put('/plans/:id', PlanController.udpate);
 routes.delete('/plans/:id', PlanController.delete);
 
-routes.get('/enrollments', EnrollmentController.index);
-routes.post('/enrollments', EnrollmentController.store);
-routes.put('/enrollments/:id', EnrollmentController.update);
-routes.delete('/enrollments/:id', EnrollmentController.delete);
+routes.get('/registrations', RegistrationController.index);
+routes.post('/registrations', RegistrationController.store);
+routes.put('/registrations/:id', RegistrationController.update);
+routes.delete('/registrations/:id', RegistrationController.delete);
 
 routes.get('/help-orders', HelpOrderAnswerController.index);
 routes.post('/help-orders/:id/answer', HelpOrderAnswerController.store);

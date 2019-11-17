@@ -2,9 +2,9 @@ import { format, parseISO } from 'date-fns';
 import ptBR from 'date-fns/locale/pt-BR';
 import Mail from '../../lib/Mail';
 
-class EnrollmentMail {
+class RegistrationMail {
   get key() {
-    return 'EnrollmentMail';
+    return 'RegistrationMail';
   }
 
   async handle({ data }) {
@@ -12,7 +12,7 @@ class EnrollmentMail {
     await Mail.sendMail({
       to: `${student.name} <${student.email}>`,
       subject: '[GymPoint] Matrícula',
-      template: 'enrollment',
+      template: 'registration',
       context: {
         student: student.name,
         plan: plan.title,
@@ -29,4 +29,4 @@ class EnrollmentMail {
   }
 }
 
-export default new EnrollmentMail();
+export default new RegistrationMail();

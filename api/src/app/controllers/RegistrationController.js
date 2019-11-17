@@ -1,14 +1,14 @@
 import * as yup from 'yup';
 import { startOfDay } from 'date-fns';
-import Enrollment from '../models/Enrollment';
+import Registration from '../models/Registration';
 import Plan from '../models/Plan';
 import Student from '../models/Student';
 import Queue from '../../lib/Queue';
-import EnrollmentMail from '../jobs/EnrollmentMail';
+import RegistrationMail from '../jobs/RegistrationMail';
 
-class EnrollmentController {
+class RegistrationController {
   async index(req, res) {
-    const enrollments = await Enrollment.findAll({
+    const registrations = await Registration.findAll({
       attributes: ['id', 'start_date', 'end_date', 'price'],
       include: [
         {
@@ -23,7 +23,7 @@ class EnrollmentController {
         }
       ]
     });
-    return res.json(enrollments);
+    return res.json(registrations);
   }
 
   async store(req, res) {
@@ -73,16 +73,16 @@ class EnrollmentController {
     }
 
     /**
-     * Add enrollment
+     * Add registration
      */
-    const { id, start_date, end_date, price } = await Enrollment.create(
+    const { id, start_date, end_date, price } = await Registration.create(
       req.body
     );
 
     /**
      * Send mail to student
      */
-    Queue.add(EnrollmentMail.key, {
+    Queue.add(RegistrationMail.key, {
       student,
       plan,
       start_date,
@@ -119,10 +119,10 @@ class EnrollmentController {
     }
 
     /**
-     * Get enrollment by id
+     * Get registration by id
      */
     const { id } = req.params;
-    const enrollment = await Enrollment.findByPk(id, {
+    const registration = await Registration.findByPk(id, {
       include: [
         {
           model: Student,
@@ -136,8 +136,8 @@ class EnrollmentController {
         }
       ]
     });
-    if (!enrollment) {
-      return res.status(400).json({ error: 'Enrollment not found' });
+    if (!registration) {
+      return res.status(400).json({ error: 'Registration not found' });
     }
 
     const { student_id: studentId, plan_id: planId } = req.body;
@@ -169,7 +169,7 @@ class EnrollmentController {
     }
 
     /**
-     * Update enrollment
+     * Update registration
      */
     const {
       student,
@@ -177,7 +177,7 @@ class EnrollmentController {
       start_date,
       end_date,
       price
-    } = await enrollment.update(req.body, { returning: true });
+    } = await registration.update(req.body, { returning: true });
 
     return res.json({
       id: +id,
@@ -191,15 +191,15 @@ class EnrollmentController {
 
   async delete(req, res) {
     const { id } = req.params;
-    const enrollment = await Enrollment.findByPk(id);
-    if (!enrollment) {
-      return res.status(400).json({ error: 'Enrollment not found' });
+    const registration = await Registration.findByPk(id);
+    if (!registration) {
+      return res.status(400).json({ error: 'Registration not found' });
     }
 
-    await enrollment.destroy();
+    await registration.destroy();
 
     return res.status(200).send();
   }
 }
 
-export default new EnrollmentController();
+export default new RegistrationController();
