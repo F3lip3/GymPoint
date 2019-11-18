@@ -1,10 +1,19 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { Wrapper } from './styles';
+import logo from '~/assets/logo-header.svg';
+import { Wrapper, Header } from './styles';
 
 export default function DefaultLayout({ children }) {
-  return <Wrapper>{children}</Wrapper>;
+  return (
+    <Wrapper>
+      <Header>
+        <img src={logo} alt="GymPoint" />
+        <span>GYMPOINT</span>
+      </Header>
+      {children}
+    </Wrapper>
+  );
 }
 
 DefaultLayout.propTypes = {

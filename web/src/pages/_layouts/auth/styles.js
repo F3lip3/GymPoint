@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { darken } from 'polished';
 
 export const Wrapper = styled.div`
   background-color: #ee4d64;
@@ -25,13 +26,11 @@ export const Content = styled.div`
     margin-top: 30px;
 
     label {
-      font-family: Roboto;
-      font-size: 14px;
       font-weight: bold;
       display: flex;
       flex-direction: column;
       text-align: left;
-      margin-bottom: 15px;
+      margin-top: 15px;
       color: #444;
     }
 
@@ -41,7 +40,6 @@ export const Content = styled.div`
       border: solid 1px #ddd;
       background-color: #fff !important;
       color: #333 !important;
-      margin-top: 5px;
       padding: 0 15px;
 
       &::placeholder {
@@ -56,15 +54,27 @@ export const Content = styled.div`
       }
     }
 
+    span {
+      color: #ee4d64;
+      align-self: flex-start;
+      margin-top: 5px;
+      font-weight: bold;
+    }
+
     button {
       height: 45px;
       border: 0;
       border-radius: 4px;
-      background-color: #ee4d64;
-      font-family: Roboto;
+      background: #ee4d64;
       font-size: 16px;
       font-weight: bold;
+      margin-top: 15px;
       color: #fff;
+      transition: background 0.2s;
+
+      &:hover {
+        background: ${darken(0.03, '#ee4d64')};
+      }
     }
   }
 `;
