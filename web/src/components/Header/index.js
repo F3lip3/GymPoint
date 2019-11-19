@@ -23,19 +23,22 @@ export default function Header() {
             <img src={logo} alt="GymPoint" />
             <span>GYMPOINT</span>
           </div>
-          <NavLink to="/students" active={currentRoute === '/students'}>
+          <NavLink to="/students" active={currentRoute === '/students' ? 1 : 0}>
             ALUNOS
           </NavLink>
-          <NavLink to="/plans" active={currentRoute === '/plans'}>
+          <NavLink to="/plans" active={currentRoute === '/plans' ? 1 : 0}>
             PLANOS
           </NavLink>
           <NavLink
             to="/registrations"
-            active={currentRoute === '/registrations'}
+            active={currentRoute === '/registrations' ? 1 : 0}
           >
             MATRÍCULAS
           </NavLink>
-          <NavLink to="/helporders" active={currentRoute === '/helporders'}>
+          <NavLink
+            to="/helporders"
+            active={currentRoute === '/helporders' ? 1 : 0}
+          >
             PEDIDOS DE AUXÍLIO
           </NavLink>
         </nav>
