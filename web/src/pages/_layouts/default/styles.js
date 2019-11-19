@@ -5,5 +5,3 @@ export const Wrapper = styled.div`
   height: 100%;
   padding-top: 65px;
 `;
-
-export const Header = styled.header``;
