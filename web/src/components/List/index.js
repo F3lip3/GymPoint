@@ -34,15 +34,18 @@ export default function List({
 
   function handleItemAction(action, id) {
     switch (action) {
-      case 'edit':
+      case 'edit': {
         onEdit(id);
         break;
-      case 'remove':
+      }
+      case 'remove': {
         onRemove(id);
         break;
-      case 'answer':
+      }
+      case 'answer': {
         onAnswer(id);
         break;
+      }
       default:
         throw new Error('Action undefined');
     }

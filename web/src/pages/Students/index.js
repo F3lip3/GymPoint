@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { confirmAlert } from 'react-confirm-alert';
+import { toast } from 'react-toastify';
 
 import 'react-confirm-alert/src/react-confirm-alert.css';
 
 import api from '~/services/api';
+import history from '~/services/history';
 import List from '~/components/List';
 
 export default function Students() {
@@ -39,7 +41,7 @@ export default function Students() {
     {
       title: 'Cadastrar',
       icon: 'MdAdd',
-      to: '/plans'
+      to: '/students/add'
     }
   ];
   const search = {
@@ -55,8 +57,22 @@ export default function Students() {
     loadStudents();
   }, []);
 
+  async function remove(id) {
+    try {
+      await api.delete(`/students/${id}`);
+      const index = students.findIndex(x => x.id === id);
+      if (index >= 0) {
+        setStudents(students.splice(index, 1));
+      }
+      toast.success('Aluno removido com sucesso!');
+    } catch (err) {
+      console.tron.error(err);
+      toast.error('Falha ao remover aluno!');
+    }
+  }
+
   function handleEdit(id) {
-    console.tron.log('editing:', id);
+    history.push(`/student/${id}`);
   }
 
   function handleRemove(id) {
@@ -68,7 +84,7 @@ export default function Students() {
         buttons: [
           {
             label: 'Sim',
-            onClick: () => console.tron.log('remover', id)
+            onClick: () => remove(id)
           },
           {
             label: 'Não'
@@ -76,8 +92,6 @@ export default function Students() {
         ]
       });
     }
-
-    console.tron.log('editing:', id);
   }
 
   async function handleSearch(value) {
