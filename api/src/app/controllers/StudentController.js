@@ -14,6 +14,16 @@ class StudentController {
     return res.json(students);
   }
 
+  async show(req, res) {
+    const { id } = req.params;
+    const student = await Student.findByPk(id);
+    if (!student) {
+      return res.status(400).json({ error: 'Student not found!' });
+    }
+
+    return res.json(student);
+  }
+
   async store(req, res) {
     const schema = yup.object().shape({
       name: yup.string().required(),
