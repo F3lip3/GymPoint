@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import { Form } from '@rocketseat/unform';
 import { darken } from 'polished';
 
-export const Wrapper = styled(Form)`
+export const FormWrapper = styled(Form)`
   margin: 35px auto;
   max-width: 900px;
   width: 100%;
@@ -110,5 +110,10 @@ export const FieldBox = styled.div`
     &::placeholder {
       color: #999;
     }
+  }
+
+  span {
+    color: #ed4c63;
+    line-height: 25px;
   }
 `;
