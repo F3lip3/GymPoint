@@ -59,7 +59,7 @@ class RegistrationController {
       attributes: ['id', 'name', 'email', 'age', 'weight', 'height']
     });
     if (!student) {
-      return res.status(401).json({ error: 'Student does not exists' });
+      return res.status(401).json({ error: 'Aluno não encontrado!' });
     }
 
     /**
@@ -69,7 +69,7 @@ class RegistrationController {
       attributes: ['id', 'title', 'duration', 'price']
     });
     if (!plan) {
-      return res.status(401).json({ error: 'Plan does not exists' });
+      return res.status(401).json({ error: 'Plano não encontrado!' });
     }
 
     /**
@@ -137,7 +137,7 @@ class RegistrationController {
       ]
     });
     if (!registration) {
-      return res.status(400).json({ error: 'Registration not found' });
+      return res.status(400).json({ error: 'Matrícula não encontrada!' });
     }
 
     const { student_id: studentId, plan_id: planId } = req.body;
@@ -151,7 +151,7 @@ class RegistrationController {
         attributes: ['id', 'name', 'email', 'age', 'weight', 'height']
       });
       if (!studentExists) {
-        return res.status(401).json({ error: 'Student does not exists' });
+        return res.status(401).json({ error: 'Aluno não encontrado!' });
       }
     }
 
@@ -164,7 +164,7 @@ class RegistrationController {
         attributes: ['id', 'title', 'duration', 'price']
       });
       if (!planExists) {
-        return res.status(401).json({ error: 'Plan does not exists' });
+        return res.status(401).json({ error: 'Plano não encontrado!' });
       }
     }
 
@@ -193,7 +193,7 @@ class RegistrationController {
     const { id } = req.params;
     const registration = await Registration.findByPk(id);
     if (!registration) {
-      return res.status(400).json({ error: 'Registration not found' });
+      return res.status(400).json({ error: 'Matrícula não encontrada!' });
     }
 
     await registration.destroy();

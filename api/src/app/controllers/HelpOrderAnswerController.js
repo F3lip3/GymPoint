@@ -39,10 +39,10 @@ class HelpOrderAnswerController {
       ]
     });
     if (!helpOrder) {
-      return res.status(404).json({ error: 'Help order not found' });
+      return res.status(404).json({ error: 'Pedido de ajuda não encontrado!' });
     }
     if (helpOrder.answer) {
-      return res.status(401).json({ error: 'Help order already answered' });
+      return res.status(401).json({ error: 'Pedido de ajuda já respondido!' });
     }
 
     const schema = yup.object().shape({

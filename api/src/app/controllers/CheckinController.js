@@ -10,7 +10,7 @@ class CheckinController {
     const { student_id } = req.params;
     const student = await Student.findByPk(student_id);
     if (!student) {
-      return res.status(401).json({ error: 'Student does not exists' });
+      return res.status(401).json({ error: 'Aluno não encontrado!' });
     }
 
     const checkins = await Checkin.findAll({
@@ -32,7 +32,7 @@ class CheckinController {
       attributes: ['id', 'name', 'email', 'age', 'weight', 'height']
     });
     if (!student) {
-      return res.status(401).json({ error: 'Student does not exists' });
+      return res.status(401).json({ error: 'Aluno não encontrado!' });
     }
 
     /**
@@ -50,7 +50,7 @@ class CheckinController {
     });
     if (numberOfCheckins >= 15) {
       return res.status(401).json({
-        error: 'Reached the maximum number of 5 checkins in the last 7 days'
+        error: 'Número máximo de 5 checkins nos últimos 7 dias atingido!'
       });
     }
 

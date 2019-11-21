@@ -9,7 +9,7 @@ class HelpOrderController {
     const { student_id } = req.params;
     const student = await Student.findByPk(student_id);
     if (!student) {
-      return res.status(401).json({ error: 'Student does not exists' });
+      return res.status(401).json({ error: 'Aluno não encontrado!' });
     }
 
     const helpOrders = await HelpOrder.findAll({
@@ -29,7 +29,7 @@ class HelpOrderController {
     const { student_id } = req.params;
     const student = await Student.findByPk(student_id);
     if (!student) {
-      return res.status(401).json({ error: 'Student does not exists' });
+      return res.status(401).json({ error: 'Aluno não encontrado!' });
     }
 
     const schema = yup.object().shape({

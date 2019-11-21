@@ -18,7 +18,7 @@ class StudentController {
     const { id } = req.params;
     const student = await Student.findByPk(id);
     if (!student) {
-      return res.status(404).json({ error: 'Student not found!' });
+      return res.status(404).json({ error: 'Aluno não encontrado!' });
     }
 
     return res.json(student);
@@ -59,7 +59,9 @@ class StudentController {
     });
 
     if (studentExists) {
-      return res.status(400).json({ error: 'Student already exists' });
+      return res
+        .status(400)
+        .json({ error: 'Já existe um aluno com esse e-mail!' });
     }
 
     const { id, name, email, age, weight, height } = await Student.create(
@@ -103,7 +105,7 @@ class StudentController {
     const { id } = req.params;
     const student = await Student.findByPk(id);
     if (!student) {
-      return res.status(400).json({ error: 'Student not found!' });
+      return res.status(400).json({ error: 'Aluno não encontrado!' });
     }
 
     if (req.body.email) {
@@ -111,7 +113,7 @@ class StudentController {
         where: { email: req.body.email }
       });
       if (studentExists && studentExists.id !== +id) {
-        return res.status(400).json({ error: 'Email unavailable' });
+        return res.status(400).json({ error: 'E-mail indisponível' });
       }
     }
 
@@ -131,7 +133,7 @@ class StudentController {
     const { id } = req.params;
     const student = await Student.findByPk(id);
     if (!student) {
-      return res.status(404).json({ error: 'Student not found!' });
+      return res.status(404).json({ error: 'Aluno não encontrado!' });
     }
 
     await student.destroy();

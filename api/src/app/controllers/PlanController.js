@@ -32,7 +32,9 @@ class PlanController {
     });
 
     if (planExists) {
-      return res.status(400).json({ error: 'Plan already exists' });
+      return res
+        .status(400)
+        .json({ error: 'Já existe um plano com esse título!' });
     }
 
     const { id, title, duration, price } = await Plan.create(req.body);
@@ -64,7 +66,7 @@ class PlanController {
     const { id } = req.params;
     const plan = await Plan.findByPk(id);
     if (!plan) {
-      return res.status(400).json({ error: 'Plan not found!' });
+      return res.status(400).json({ error: 'Plano não encontrado!' });
     }
 
     if (req.body.title) {
@@ -73,7 +75,7 @@ class PlanController {
       });
       if (planExists && planExists.id !== +id) {
         return res.status(400).json({
-          error: `Plan with title '${req.body.title}' already exists`
+          error: `Plano com o título '${req.body.title}' já existe!`
         });
       }
     }
@@ -92,7 +94,7 @@ class PlanController {
     const { id } = req.params;
     const plan = await Plan.findByPk(id);
     if (!plan) {
-      return res.status(400).json({ error: 'Plan not found!' });
+      return res.status(400).json({ error: 'Plano não encontrado!' });
     }
 
     await plan.destroy();
