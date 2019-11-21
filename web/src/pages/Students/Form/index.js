@@ -58,7 +58,7 @@ export default function StudentForm({ match }) {
       }
     }
     if (id) loadStudent(id);
-  }, []);
+  }, [id]);
 
   async function handleSubmit(data) {
     try {

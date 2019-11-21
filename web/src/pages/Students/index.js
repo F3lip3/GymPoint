@@ -60,10 +60,7 @@ export default function Students() {
   async function remove(id) {
     try {
       await api.delete(`/students/${id}`);
-      const index = students.findIndex(x => x.id === id);
-      if (index >= 0) {
-        setStudents(students.splice(index, 1));
-      }
+      setStudents(students.filter(x => x.id !== id));
       toast.success('Aluno removido com sucesso!');
     } catch (err) {
       console.tron.error(err);

@@ -92,7 +92,8 @@ export const FieldBox = styled.div`
     }
   }
 
-  label {
+  label,
+  div.fakeLabel {
     color: #444;
     font-size: 14px;
     font-weight: bold;
@@ -110,6 +111,19 @@ export const FieldBox = styled.div`
     &::placeholder {
       color: #999;
     }
+
+    &:disabled {
+      background: #f5f5f5 !important;
+    }
+  }
+
+  div.fakeInput {
+    background: #f5f5f5;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 13px 15px;
+    font-size: 16px;
+    color: #666;
   }
 
   span {
