@@ -15,7 +15,8 @@ export default function List({
   onRemove,
   onAnswer,
   onSearch,
-  keyColumn
+  keyColumn,
+  larger
 }) {
   const [formattedActions, setFormattedActions] = useState([]);
 
@@ -56,7 +57,7 @@ export default function List({
   }
 
   return (
-    <Wrapper>
+    <Wrapper larger={larger}>
       {title && (
         <Header>
           <h2>{title}</h2>
@@ -109,20 +110,25 @@ export default function List({
                       align={column.align}
                       width={column.width}
                     >
-                      {column.actions
-                        ? column.actions.map(act => (
-                            <button
-                              key={`${column.key}_${item[keyColumn]}_${act}}`}
-                              type="button"
-                              className={act}
-                              onClick={() => handleItemAction(act, item.id)}
-                            >
-                              {act === 'edit' && 'editar'}
-                              {act === 'remove' && 'apagar'}
-                              {act === 'answer' && 'responder'}
-                            </button>
-                          ))
-                        : item[column.key]}
+                      {column.actions &&
+                        column.actions.map(act => (
+                          <button
+                            key={`${column.key}_${item[keyColumn]}_${act}}`}
+                            type="button"
+                            className={act}
+                            onClick={() => handleItemAction(act, item.id)}
+                          >
+                            {act === 'edit' && 'editar'}
+                            {act === 'remove' && 'apagar'}
+                            {act === 'answer' && 'responder'}
+                          </button>
+                        ))}
+                      {!column.actions &&
+                        column.key !== 'icon' &&
+                        item[column.key]}
+                      {!column.actions &&
+                        column.key === 'icon' &&
+                        item.icon && <item.icon color="#42cb59" size={20} />}
                     </Column>
                   ))}
                 </tr>
@@ -164,7 +170,8 @@ List.propTypes = {
   onRemove: PropTypes.func,
   onAnswer: PropTypes.func,
   onSearch: PropTypes.func,
-  keyColumn: PropTypes.string.isRequired
+  keyColumn: PropTypes.string.isRequired,
+  larger: PropTypes.bool
 };
 
 List.defaultProps = {
@@ -174,5 +181,6 @@ List.defaultProps = {
   onEdit: null,
   onRemove: null,
   onAnswer: null,
-  onSearch: null
+  onSearch: null,
+  larger: false
 };

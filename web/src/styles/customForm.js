@@ -83,7 +83,7 @@ export const FieldBox = styled.div`
   > div {
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    justify-content: flex-start;
     padding-right: 16px;
     width: 100%;
 
@@ -100,12 +100,14 @@ export const FieldBox = styled.div`
     margin-bottom: 8px;
   }
 
-  input {
+  input,
+  select {
     background: #fff;
     border: 1px solid #ddd;
     border-radius: 4px;
     padding: 13px 15px;
     font-size: 16px;
+    height: 47px;
     color: #666;
 
     &::placeholder {
@@ -124,6 +126,7 @@ export const FieldBox = styled.div`
     padding: 13px 15px;
     font-size: 16px;
     color: #666;
+    height: 47px;
   }
 
   span {

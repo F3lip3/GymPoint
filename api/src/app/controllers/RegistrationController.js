@@ -26,6 +26,30 @@ class RegistrationController {
     return res.json(registrations);
   }
 
+  async show(req, res) {
+    const { id } = req.params;
+    const registration = await Registration.findByPk(id, {
+      attributes: ['id', 'start_date', 'end_date', 'price', 'active'],
+      include: [
+        {
+          model: Student,
+          as: 'student',
+          attributes: ['id', 'name', 'email', 'age', 'weight', 'height']
+        },
+        {
+          model: Plan,
+          as: 'plan',
+          attributes: ['id', 'title', 'duration', 'price']
+        }
+      ]
+    });
+    if (!registration) {
+      return res.status(404).json({ error: 'Matrícula não encontrada!' });
+    }
+
+    return res.json(registration);
+  }
+
   async store(req, res) {
     const schema = yup.object().shape({
       student_id: yup

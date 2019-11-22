@@ -3,7 +3,7 @@ import { darken } from 'polished';
 
 export const Wrapper = styled.div`
   margin: 35px auto;
-  max-width: 900px;
+  max-width: ${props => (props.larger ? '1200px' : '900px')};
   width: 100%;
 `;
 
