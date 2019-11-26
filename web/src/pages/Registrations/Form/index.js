@@ -114,7 +114,7 @@ export default function RegistrationForm({ match }) {
       }
     }
     loadData();
-  }, []);
+  }, [id]);
 
   async function handleSubmit(data) {
     try {
