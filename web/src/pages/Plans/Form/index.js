@@ -5,7 +5,7 @@ import { toast } from 'react-toastify';
 import { MdKeyboardArrowLeft, MdCheck } from 'react-icons/md';
 import * as yup from 'yup';
 
-import { FormWrapper, Header, Container, FieldBox } from '~/styles/customForm';
+import { FormWrapper, Header, Container, FieldBox } from '~/styles/form';
 
 import api from '~/services/api';
 import history from '~/services/history';

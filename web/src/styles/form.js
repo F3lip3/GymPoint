@@ -2,6 +2,14 @@ import styled from 'styled-components';
 import { Form } from '@rocketseat/unform';
 import { darken } from 'polished';
 
+export const ErrorWrapper = styled.h2`
+  color: #ee4d64;
+  margin: 35px auto;
+  max-width: 900px;
+  width: 100%;
+  text-align: center;
+`;
+
 export const FormWrapper = styled(Form)`
   margin: 35px auto;
   max-width: 900px;

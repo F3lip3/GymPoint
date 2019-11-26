@@ -2,13 +2,21 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Select } from '@rocketseat/unform';
 import { toast } from 'react-toastify';
-import { MdKeyboardArrowLeft, MdCheck } from 'react-icons/md';
-import { startOfDay, addMonths } from 'date-fns';
+import { MdKeyboardArrowLeft, MdCheck, MdSync } from 'react-icons/md';
+import { startOfDay, addMonths, parseISO } from 'date-fns';
 import * as yup from 'yup';
 
 import 'react-datepicker/dist/react-datepicker.css';
 
-import { FormWrapper, Header, Container, FieldBox } from '~/styles/customForm';
+import {
+  ErrorWrapper,
+  FormWrapper,
+  Header,
+  Container,
+  FieldBox
+} from '~/styles/form';
+
+import { LoadingWrapper } from '~/styles/loading';
 
 import api from '~/services/api';
 import history from '~/services/history';
@@ -39,6 +47,7 @@ export default function RegistrationForm({ match }) {
     params: { id }
   } = match;
 
+  const [loading, setLoading] = useState(true);
   const [registration, setRegistration] = useState({});
   const [students, setStudents] = useState([]);
   const [plans, setPlans] = useState([]);
@@ -65,20 +74,24 @@ export default function RegistrationForm({ match }) {
         const response = await api.get(`/registrations/${registrationId}`);
         if (response && response.data) {
           const formattedData = {
-            ...response.data,
             student_id: response.data.student.id,
-            plan_id: response.data.plan.id
+            plan_id: response.data.plan.id,
+            start_date: parseISO(response.data.start_date)
           };
-          console.tron.log(formattedData);
           setRegistration(formattedData);
+          setPlan(plans.find(x => x.id === formattedData.plan_id));
+          setStartDate(formattedData.start_date);
+          setLoading(false);
         }
       } catch (err) {
         toast.error('Matrícula não encontrada!');
         history.push('/registrations');
       }
     }
-    if (id) loadRegistration(id);
-  }, [id, plans]);
+    if (id && plans.length > 0 && students.length > 0) {
+      loadRegistration(id);
+    }
+  }, [id, plans, students]);
 
   useEffect(() => {
     async function loadData() {
@@ -94,6 +107,7 @@ export default function RegistrationForm({ match }) {
           }))
         );
         setPlans(plansResponse.data);
+        if (!id) setLoading(false);
       } catch (err) {
         toast.error('Falha ao carregar dados!');
         history.push('/registrations');
@@ -135,62 +149,77 @@ export default function RegistrationForm({ match }) {
   }
 
   return (
-    <FormWrapper
-      initialData={registration}
-      schema={schema}
-      onSubmit={handleSubmit}
-    >
-      <Header>
-        <h2>{id ? 'Edição de matrícula' : 'Cadastro de matrícula'}</h2>
-        <div>
-          <button
-            type="button"
-            className="back"
-            onClick={() => history.goBack()}
-          >
-            <MdKeyboardArrowLeft color="#fff" size={20} />
-            <span>VOLTAR</span>
-          </button>
-          <button type="submit" className="save">
-            <MdCheck color="#fff" size={20} />
-            <span>SALVAR</span>
-          </button>
-        </div>
-      </Header>
-      <Container>
-        <FieldBox direction="column">
-          <label htmlFor="student_id">ALUNO</label>
-          <Select id="student_id" name="student_id" options={students} />
-        </FieldBox>
-        <FieldBox direction="row">
-          <div>
-            <label htmlFor="plan_id">PLANO</label>
-            <Select
-              id="plan_id"
-              name="plan_id"
-              options={plans}
-              onChange={handlePlanChange}
-            />
-          </div>
-          <div>
-            <label htmlFor="start_date">DATA DE INÍCIO</label>
-            <DatePicker
-              id="start_date"
-              name="start_date"
-              onChange={handleStartDateChange}
-            />
-          </div>
-          <div>
-            <div className="fakeLabel">DATA DE TÉRMINO</div>
-            <div className="fakeInput">{endDate}</div>
-          </div>
-          <div>
-            <div className="fakeLabel">VALOR FINAL</div>
-            <div className="fakeInput">{total}</div>
-          </div>
-        </FieldBox>
-      </Container>
-    </FormWrapper>
+    <>
+      {loading && (
+        <LoadingWrapper width={900}>
+          <MdSync size={50} color="#444" />
+        </LoadingWrapper>
+      )}
+      {!loading && students.length === 0 && (
+        <ErrorWrapper>Nenhum aluno encontrado!</ErrorWrapper>
+      )}
+      {!loading && plans.length === 0 && (
+        <ErrorWrapper>Nenhum plano encontrado!</ErrorWrapper>
+      )}
+      {!loading && students.length > 0 && plans.length > 0 && (
+        <FormWrapper
+          schema={schema}
+          initialData={registration}
+          onSubmit={handleSubmit}
+        >
+          <Header>
+            <h2>{id ? 'Edição de matrícula' : 'Cadastro de matrícula'}</h2>
+            <div>
+              <button
+                type="button"
+                className="back"
+                onClick={() => history.goBack()}
+              >
+                <MdKeyboardArrowLeft color="#fff" size={20} />
+                <span>VOLTAR</span>
+              </button>
+              <button type="submit" className="save">
+                <MdCheck color="#fff" size={20} />
+                <span>SALVAR</span>
+              </button>
+            </div>
+          </Header>
+          <Container>
+            <FieldBox direction="column">
+              <label htmlFor="student_id">ALUNO</label>
+              <Select id="student_id" name="student_id" options={students} />
+            </FieldBox>
+            <FieldBox direction="row">
+              <div>
+                <label htmlFor="plan_id">PLANO</label>
+                <Select
+                  id="plan_id"
+                  name="plan_id"
+                  options={plans}
+                  onChange={handlePlanChange}
+                />
+              </div>
+              <div>
+                <label htmlFor="start_date">DATA DE INÍCIO</label>
+                <DatePicker
+                  id="start_date"
+                  name="start_date"
+                  onChange={handleStartDateChange}
+                />
+              </div>
+              <div>
+                <div className="fakeLabel">DATA DE TÉRMINO</div>
+                <div className="fakeInput">{endDate}</div>
+              </div>
+              <div>
+                <div className="fakeLabel">VALOR FINAL</div>
+                <div className="fakeInput">{total}</div>
+              </div>
+            </FieldBox>
+          </Container>
+        </FormWrapper>
+      )}
+    </>
   );
 }
 
