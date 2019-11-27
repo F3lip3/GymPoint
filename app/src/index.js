@@ -1,12 +1,9 @@
 import React from 'react';
-import { SafeAreaView, Text } from 'react-native';
 
-import './config/ReactotronConfig';
+import '~/config/ReactotronConfig';
+
+import Routes from './routes';
 
 export default function App() {
-  return (
-    <SafeAreaView>
-      <Text>Welcome</Text>
-    </SafeAreaView>
-  );
+  return <Routes />;
 }
