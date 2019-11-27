@@ -1,12 +1,23 @@
 import React from 'react';
-import { SafeAreaView, Text } from 'react-native';
+import { Image } from 'react-native';
 
-// import { Container } from './styles';
+import logo from '~/assets/logo.png';
+
+import { Container, Form, FormInput, SubmitButton } from './styles';
 
 export default function SignIn() {
   return (
-    <SafeAreaView>
-      <Text>SignIn</Text>
-    </SafeAreaView>
+    <Container>
+      <Image source={logo} />
+      <Form>
+        <FormInput
+          icon="fingerprint"
+          autoCorrect={false}
+          autoCapitalize="none"
+          placeholder="Informe seu ID de cadastro"
+        />
+        <SubmitButton onPress={() => {}}>Entrar no sistema</SubmitButton>
+      </Form>
+    </Container>
   );
 }
