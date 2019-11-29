@@ -1,11 +1,14 @@
+/* eslint-disable react/prop-types */
+import React from 'react';
 import { createAppContainer, createSwitchNavigator } from 'react-navigation';
 import { createBottomTabNavigator } from 'react-navigation-tabs';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 
 import SignIn from './pages/SignIn';
-import CheckIns from './pages/CheckIns';
-import HelpOrderList from './pages/HelpOrders/List';
+import CheckInsScreen from './pages/CheckIns';
+import HelpOrdersScreen from './pages/HelpOrders';
 
-export default (signedIn = false) =>
+export default (headerOptions, signedIn = false) =>
   createAppContainer(
     createSwitchNavigator(
       {
@@ -14,8 +17,24 @@ export default (signedIn = false) =>
         }),
         App: createBottomTabNavigator(
           {
-            CheckIns,
-            HelpOrderList
+            CheckIns: {
+              screen: CheckInsScreen,
+              navigationOptions: {
+                title: 'Check-ins',
+                tabBarIcon: ({ tintColor }) => (
+                  <Icon name="edit-location" size={20} color={tintColor} />
+                )
+              }
+            },
+            HelpOrders: {
+              screen: HelpOrdersScreen,
+              navigationOptions: {
+                title: 'Pedir ajuda',
+                tabBarIcon: ({ tintColor }) => (
+                  <Icon name="live-help" size={20} color={tintColor} />
+                )
+              }
+            }
           },
           {
             tabBarOptions: {
