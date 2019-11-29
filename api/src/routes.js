@@ -16,10 +16,10 @@ routes.get('/students/:student_id/checkins', CheckinController.index);
 routes.post('/students/:student_id/checkins', CheckinController.store);
 routes.get('/students/:student_id/help-orders', HelpOrderController.index);
 routes.post('/students/:student_id/help-orders', HelpOrderController.store);
+routes.get('/students/:id', StudentController.show);
 
 routes.use(authMiddleware);
 routes.get('/students', StudentController.index);
-routes.get('/students/:id', StudentController.show);
 routes.post('/students', StudentController.store);
 routes.put('/students/:id', StudentController.udpate);
 routes.delete('/students/:id', StudentController.delete);
