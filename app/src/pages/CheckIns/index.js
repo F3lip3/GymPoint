@@ -1,16 +1,21 @@
 import React from 'react';
 import { View } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-
-// import { Container } from './styles';
+import PropTypes from 'prop-types';
 
 export default function CheckIns() {
   return <View />;
 }
 
+function tabBarIcon({ tintColor }) {
+  return <Icon name="edit-location" size={20} color={tintColor} />;
+}
+
 CheckIns.navigationOptions = {
   tabBarLabel: 'Check-ins',
-  tabBarIcon: ({ tintColor }) => (
-    <Icon name="edit-location" size={20} color={tintColor} />
-  )
+  tabBarIcon
+};
+
+tabBarIcon.propTypes = {
+  tintColor: PropTypes.string.isRequired
 };
