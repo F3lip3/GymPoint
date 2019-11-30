@@ -6,24 +6,39 @@ import Student from '../models/Student';
 
 class CheckinController {
   async index(req, res) {
-    const { page } = req.query;
+    const PAGE_SIZE = 30;
+
+    let { page } = req.query;
+    // eslint-disable-next-line no-restricted-globals
+    if (!page || isNaN(page) || page < 0) {
+      page = 0;
+    } else {
+      page -= 1;
+    }
+
     const { student_id } = req.params;
+
     const student = await Student.findByPk(student_id);
     if (!student) {
       return res.status(401).json({ error: 'Aluno não encontrado!' });
     }
 
-    const checkins = await Checkin.findAll({
+    const { rows, count } = await Checkin.findAndCountAll({
       where: {
         student_id
       },
       attributes: ['created_at'],
       order: [['created_at', 'desc']],
-      limit: 10,
-      offset: ((page && page > 0 ? page : 1) - 1) * 10
+      limit: PAGE_SIZE,
+      offset: page * PAGE_SIZE
     });
 
-    return res.json(checkins.map(x => x.created_at));
+    return res.json(
+      rows.map((x, index) => ({
+        date: x.created_at,
+        index: count - page * PAGE_SIZE - index
+      }))
+    );
   }
 
   async store(req, res) {
