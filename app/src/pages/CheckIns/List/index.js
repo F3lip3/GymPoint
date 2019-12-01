@@ -47,8 +47,7 @@ export default function List() {
         setData([
           {
             index: data[0].index + 1,
-            time: formatTime(response.data.created_at),
-            new: true
+            time: formatTime(response.data.created_at)
           },
           ...data
         ]);
@@ -90,7 +89,7 @@ export default function List() {
         onEndReached={handleEndReached}
         onEndReachedThreshold={0.5}
         renderItem={({ item }) => (
-          <CheckIn newItem={item.new}>
+          <CheckIn>
             <Title>Check-in #{item.index}</Title>
             <Time>{item.time}</Time>
           </CheckIn>

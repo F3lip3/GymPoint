@@ -33,7 +33,7 @@ class HelpOrderController {
     }
 
     const schema = yup.object().shape({
-      question: yup.string().required()
+      question: yup.string().required('Informe sua dúvida')
     });
 
     try {
