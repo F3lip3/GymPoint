@@ -2,9 +2,11 @@ import request from 'supertest';
 
 import app from '../../src/app';
 import factory from '../factories';
+import truncate from '../util/truncate';
 
-describe('Session', () => {
-  beforeAll(async () => {
+describe('Creating session', () => {
+  beforeEach(async () => {
+    await truncate();
     await factory.create('User');
   });
   it('should return a valid token and user data', async () => {

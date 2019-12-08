@@ -6,11 +6,13 @@ import Student from '../models/Student';
 class StudentController {
   async index(req, res) {
     const { q } = req.query;
+
     const students = q
       ? await Student.findAll({
-          where: { name: { [Op.iLike]: `%${q}%` } }
+          where: { name: { [Op.like]: `%${q}%` } }
         })
       : await Student.findAll();
+
     return res.json(students);
   }
 
@@ -105,7 +107,7 @@ class StudentController {
     const { id } = req.params;
     const student = await Student.findByPk(id);
     if (!student) {
-      return res.status(400).json({ error: 'Aluno não encontrado!' });
+      return res.status(404).json({ error: 'Aluno não encontrado!' });
     }
 
     if (req.body.email) {
