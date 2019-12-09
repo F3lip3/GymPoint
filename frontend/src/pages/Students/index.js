@@ -46,7 +46,7 @@ export default function Students() {
   ];
   const search = {
     param: 'q',
-    placeholder: 'Buscar aluno'
+    placeholder: 'Filtrar alunos por nome ou e-mail'
   };
 
   useEffect(() => {
@@ -99,6 +99,7 @@ export default function Students() {
   return (
     <List
       title="Gerenciando alunos"
+      emptyError="Nenhum aluno encontrado!"
       columns={columns}
       actions={actions}
       data={students}

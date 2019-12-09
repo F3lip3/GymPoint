@@ -64,15 +64,18 @@ export default function Students() {
   useEffect(() => {
     async function loadRegistrations() {
       const response = await api.get('/registrations');
-      if (response && response.data) {
+      if (response && response.data && response.data.length > 0) {
         setRegistrations(
           response.data.map(registration => ({
             ...registration,
-            studentName: registration.student.name,
-            planTitle: registration.plan.title,
+            studentName: registration.student
+              ? registration.student.name
+              : '--',
+            planTitle: registration.plan ? registration.plan.title : '--',
             startDateFormatted: formatDate(registration.start_date),
             endDateFormatted: formatDate(registration.end_date),
-            icon: registration.active ? MdCheckCircle : null
+            icon: MdCheckCircle,
+            iconColor: registration.active ? '#42cb59' : '#ddd'
           }))
         );
       }
@@ -117,6 +120,7 @@ export default function Students() {
   return (
     <List
       title="Gerenciando matrículas"
+      emptyError="Nenhuma matrícula encontrada!"
       columns={columns}
       actions={actions}
       data={registrations}

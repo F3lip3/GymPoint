@@ -49,15 +49,17 @@ export default function Plans() {
   useEffect(() => {
     async function loadPlans() {
       const response = await api.get('/plans');
-      setPlans(
-        response.data.map(plan => ({
-          ...plan,
-          durationLabeled: `${plan.duration} ${
-            plan.duration === 1 ? 'mês' : 'meses'
-          }`,
-          priceFormatted: formatPrice(plan.price)
-        }))
-      );
+      if (response && response.data && response.data.length > 0) {
+        setPlans(
+          response.data.map(plan => ({
+            ...plan,
+            durationLabeled: `${plan.duration} ${
+              plan.duration === 1 ? 'mês' : 'meses'
+            }`,
+            priceFormatted: formatPrice(plan.price)
+          }))
+        );
+      }
     }
     loadPlans();
   }, []);
@@ -98,7 +100,8 @@ export default function Plans() {
 
   return (
     <List
-      title="Gerenciando alunos"
+      title="Gerenciando planos"
+      emptyError="Nenhum plano encontrado!"
       columns={columns}
       actions={actions}
       data={plans}

@@ -7,6 +7,7 @@ import { Wrapper, Header, Container, HeaderColumn, Column } from './styles';
 
 export default function List({
   title,
+  emptyError,
   actions,
   columns,
   data,
@@ -128,7 +129,9 @@ export default function List({
                         item[column.key]}
                       {!column.actions &&
                         column.key === 'icon' &&
-                        item.icon && <item.icon color="#42cb59" size={20} />}
+                        item.icon && (
+                          <item.icon color={item.iconColor} size={20} />
+                        )}
                     </Column>
                   ))}
                 </tr>
@@ -136,7 +139,7 @@ export default function List({
             </tbody>
           </table>
         ) : (
-          <h2>Nenhum aluno encontrado!</h2>
+          <h2>{emptyError}</h2>
         )}
       </Container>
     </Wrapper>
@@ -145,6 +148,7 @@ export default function List({
 
 List.propTypes = {
   title: PropTypes.string,
+  emptyError: PropTypes.string,
   actions: PropTypes.arrayOf(
     PropTypes.shape({
       title: PropTypes.string.isRequired,
@@ -176,6 +180,7 @@ List.propTypes = {
 
 List.defaultProps = {
   title: '',
+  emptyError: 'Nenhum registro encontrado!',
   actions: [],
   search: null,
   onEdit: null,

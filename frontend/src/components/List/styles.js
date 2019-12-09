@@ -58,7 +58,7 @@ export const Header = styled.header`
       border: 1px solid #ddd;
       border-radius: 4px;
       height: 36px;
-      width: 235px;
+      width: 280px;
       margin-left: 16px;
       display: flex;
       flex-direction: row;

@@ -13,11 +13,20 @@ export function* signIn({ payload }) {
       email,
       password
     });
-    const { token, user } = response.data;
-    api.defaults.headers.Authorization = `Bearer ${token}`;
-    yield put(signInSuccess(token, user));
-    history.push('/students');
+    if (response.status === 200) {
+      const { token, user } = response.data;
+      api.defaults.headers.Authorization = `Bearer ${token}`;
+      yield put(signInSuccess(token, user));
+      history.push('/students');
+    } else {
+      toast.error(
+        response.data && response.data.error
+          ? response.data.error
+          : 'Falha na autenticação!'
+      );
+    }
   } catch (err) {
+    console.tron.error(err);
     toast.error('Usuário ou senha inválidos!');
     yield put(signInFailure());
   }

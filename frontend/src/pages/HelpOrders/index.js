@@ -43,13 +43,15 @@ export default function HelpOrders() {
   useEffect(() => {
     async function loadHelpOrders() {
       const response = await api.get('/help-orders?page=1');
-      setHelpOrders(
-        response.data.map(order => ({
-          ...order,
-          studentName: order.student.name,
-          createdAt: formatDate(order.created_at, 'dd/MM/yyyy HH:mm')
-        }))
-      );
+      if (response && response.data && response.data.length > 0) {
+        setHelpOrders(
+          response.data.map(order => ({
+            ...order,
+            studentName: order.student ? order.student.name : '--',
+            createdAt: formatDate(order.created_at, 'dd/MM/yyyy HH:mm')
+          }))
+        );
+      }
     }
     loadHelpOrders();
   }, []);
@@ -86,6 +88,7 @@ export default function HelpOrders() {
     <>
       <List
         title="Pedidos de auxílio"
+        emptyError="Nenhum pedido de auxílio encontrado!"
         columns={columns}
         data={helpOrders}
         onAnswer={handleAnswer}

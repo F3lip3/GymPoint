@@ -33,6 +33,7 @@ export default function DatePicker({ name, onChange }) {
         name={fieldName}
         selected={selected}
         dateFormat="dd/MM/yyyy"
+        autoComplete="off"
         onChange={date => handleDatePickerChange(date)}
         ref={ref}
       />
