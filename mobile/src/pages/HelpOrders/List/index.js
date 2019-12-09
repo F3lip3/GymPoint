@@ -45,8 +45,8 @@ function List({ navigation, isFocused }) {
       ];
       setData(fetchedData);
       setPage(fetchPage);
-      setLoading(false);
     }
+    setLoading(false);
   }
 
   function handleNewHelpOrder() {

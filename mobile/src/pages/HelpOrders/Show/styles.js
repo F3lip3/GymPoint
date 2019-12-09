@@ -15,6 +15,7 @@ export const Box = styled.View`
   display: flex;
   margin: 20px 0;
   padding: 20px;
+  width: 100%;
 `;
 
 export const Header = styled.View`

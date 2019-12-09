@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { Alert, ActivityIndicator } from 'react-native';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { Container, AddButton, ListView, CheckIn, Title, Time } from './styles';
+import { signOut } from '~/store/modules/auth/actions';
 
 import api from '~/services/api';
 import { formatTime } from '~/utils/format';
@@ -10,6 +11,7 @@ import { formatTime } from '~/utils/format';
 const PAGE_SIZE = 30;
 
 export default function List() {
+  const dispatch = useDispatch();
   const { id } = useSelector(state => state.auth.user);
   const [data, setData] = useState([]);
   const [page, setPage] = useState(1);
@@ -32,8 +34,8 @@ export default function List() {
       ];
       setData(fetchedData);
       setPage(fetchPage);
-      setLoading(false);
     }
+    setLoading(false);
   }
 
   async function handleCheckIn() {
@@ -46,11 +48,13 @@ export default function List() {
       if (response.status === 200 && response.data.created_at) {
         setData([
           {
-            index: data[0].index + 1,
+            index: data && data.length > 0 ? data[0].index + 1 : 1,
             time: formatTime(response.data.created_at)
           },
           ...data
         ]);
+      } else if (response.status === 401) {
+        dispatch(signOut());
       } else {
         Alert.alert('Falha ao fazer check-in!', response.data.error);
       }
